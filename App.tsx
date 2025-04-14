@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import uuid from 'react-native-uuid';
 import Header from './components/Header';
 import ListItem from './components/ListItem';
-import AddItem from './components/AddItem'
+import AddItem from './components/AddItem';
 
 const App = () => {
   const [items, setItems] = useState([
@@ -17,14 +17,20 @@ const App = () => {
     setItems(prevItems => {
       return prevItems.filter(item => item.id !== id);
     });
-  };  
+  };
+
+  const addItem = (text: string) => {
+    setItems(prevItems => {
+      return [{ id: uuid.v4() as string, text }, ...prevItems];
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <Header title="Shopping List"/>
-      <AddItem title="Add Item" />
-      <FlatList 
-        data={items} 
+      <Header title="Shopping List" />
+      <AddItem title="Add Item" addItem={addItem}/>
+      <FlatList
+        data={items}
         renderItem={({item}) => (
           <ListItem item={item} deleteItem={deleteItem} />
         )}
